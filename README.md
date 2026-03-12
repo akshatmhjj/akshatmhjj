@@ -1,53 +1,80 @@
-# Akshat Mahajan
+<h1 align="center">Akshat Mahajan</h1>
 
-Full Stack and iOS Developer building scalable web platforms and high-performance mobile applications.
+<p align="center">
+Full Stack & iOS Developer building scalable web platforms and high-performance mobile applications.
+</p>
+
+<p align="center">
 Focused on clean architecture, efficient backend systems, and intuitive user experiences.
-
-Currently working across modern JavaScript ecosystems and native iOS development to design reliable and maintainable software.
+</p>
 
 ---
 
-## Tech Stack
+## About
+
+Engineer working across modern JavaScript ecosystems and native iOS development to build reliable and maintainable software.
+Interested in scalable systems, thoughtful product design, and developer-focused platforms.
+
+---
+
+## Core Technologies
 
 **Frontend**
-React, HTML, CSS, Tailwind
+
+React · HTML · CSS · Tailwind
 
 **Backend**
-Node.js, Express, REST APIs
+
+Node.js · Express · REST APIs
 
 **Database**
-MongoDB, SQL
 
-**Mobile**
-Swift, UIKit, SwiftUI
+MongoDB · SQL
 
-**Tools**
-Git, GitHub, VS Code
+**Mobile Development**
 
----
+Swift · UIKit · SwiftUI
 
-## Selected Projects
+**Developer Tools**
 
-**Code Journey v2**
-A full-stack platform designed to provide structured learning paths and curated resources for aspiring developers. Built with a modular architecture to support scalable content delivery and improved user engagement.
-
-**TaskFlow API**
-A RESTful backend system designed for managing projects, tasks, and team workflows. Focused on structured routing, scalable architecture, and maintainable API design.
-
-**Predicteye Scaling**
-An AI-driven web application that predicts resale product pricing using machine learning models and interactive data interfaces.
+Git · GitHub · VS Code
 
 ---
 
-## GitHub Activity
+## Selected Work
 
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=akshatmhjj\&show_icons=true\&hide_border=true)
+### Code Journey v2
 
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=akshatmhjj\&layout=compact\&hide_border=true)
+A full-stack developer learning platform designed to provide structured learning roadmaps and curated resources for aspiring engineers.
+Built with scalable architecture and modular backend services.
 
 ---
 
-## Contact
+### TaskFlow API
+
+RESTful backend infrastructure for managing projects, tasks, and workflow systems with scalable routing and maintainable API architecture.
+
+---
+
+### Predicteye Scaling
+
+AI-driven application that predicts resale product pricing using machine learning models and interactive data interfaces.
+
+---
+
+## GitHub Overview
+
+<p align="center">
+
+<img height="170" src="https://github-readme-stats.vercel.app/api?username=akshatmhjj&show_icons=true&hide_border=true&theme=transparent"/>
+
+<img height="170" src="https://github-readme-stats.vercel.app/api/top-langs/?username=akshatmhjj&layout=compact&hide_border=true&theme=transparent"/>
+
+</p>
+
+---
+
+## Connect
 
 Portfolio
 https://akshatmahajan.in
@@ -57,3 +84,9 @@ https://www.linkedin.com/in/akshat-mahajan-601a5a223/
 
 Email
 [akshatmahajan32@gmail.com](mailto:akshatmahajan32@gmail.com)
+
+---
+
+<p align="center">
+Building systems that scale and experiences that feel effortless.
+</p>
