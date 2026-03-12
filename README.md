@@ -20,11 +20,11 @@ Currently contributing to real-world product development while continuously expl
 
 Key interests include:
 
-• Scalable web platforms
-• Native iOS application development
-• Backend system design and API architecture
-• Developer-focused tools and learning platforms
-• Product-driven engineering
+• Scalable web platforms <br>
+• Native iOS application development <br>
+• Backend system design and API architecture <br>
+• Developer-focused tools and learning platforms <br>
+• Product-driven engineering <br>
 
 ---
 
