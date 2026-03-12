@@ -101,14 +101,13 @@ Tech Stack: Next.js, APIs, ML Integration
 ## 🌐 Connect With Me
 
 Portfolio
-https://yourportfolio.dev
+https://akshatmahajan.in
 
 LinkedIn
-https://linkedin.com/in/yourprofile
+https://www.linkedin.com/in/akshat-mahajan-601a5a223/
 
 Email
-[your@email.com](mailto:your@email.com)
-
+akshatmahajan32@gmail.com
 ---
 
 ⭐ Always building, always learning.
