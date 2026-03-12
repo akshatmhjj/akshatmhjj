@@ -84,11 +84,11 @@ AI-based application predicting resale product prices using machine learning mod
 
 ## Connect
 
-Portfolio
+Portfolio:
 https://akshatmahajan.in
 
-LinkedIn
+LinkedIn:
 https://www.linkedin.com/in/akshat-mahajan-601a5a223/
 
-Email
+Email:
 [akshatmahajan32@gmail.com](mailto:akshatmahajan32@gmail.com)
