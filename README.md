@@ -32,23 +32,23 @@ Key interests include:
 
 ### Frontend Engineering
 
-React · HTML5 · CSS3 · Tailwind CSS · Responsive UI Development · Component-based Architecture
+React | HTML5 | CSS3 | Tailwind CSS | Responsive UI Development | Component-based Architecture
 
 ### Backend Engineering
 
-Node.js · Express.js · RESTful API Design · Server Architecture · API Integration
+Node.js | Express.js | RESTful API Design | Server Architecture | API Integration
 
 ### Databases
 
-MongoDB · SQL · Data Modeling · Query Optimization
+MongoDB | SQL | Data Modeling | Query Optimization
 
 ### Mobile Development
 
-Swift · UIKit · SwiftUI · iOS Interface Design · Application Lifecycle Handling
+Swift | UIKit | SwiftUI | iOS Interface Design | Application Lifecycle Handling
 
 ### Developer Tools
 
-Git · GitHub · VS Code · Version Control Workflows · Debugging & Code Optimization
+Git | GitHub | VS Code | Version Control Workflows | Debugging & Code Optimization
 
 ---
 
