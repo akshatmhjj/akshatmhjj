@@ -44,11 +44,11 @@ MongoDB | SQL | Data Modeling | Query Optimization
 
 ### Mobile Development
 
-Swift | UIKit | SwiftUI | iOS Interface Design | Application Lifecycle Handling
+Swift | UIKit | SwiftUI | MVVM | Application Lifecycle Handling
 
 ### Developer Tools
 
-Git | GitHub | VS Code | Version Control Workflows | Debugging & Code Optimization
+Git | GitHub | VS Code | XCode | Sublime | npm 
 
 ---
 
