@@ -73,11 +73,11 @@ Tech Stack: Next.js, APIs, ML Integration
 ## 📊 GitHub Statistics
 
 <p align="center">
-<img src="https://github-readme-stats.vercel.app/api?username=akshat_mhjj&show_icons=true&theme=tokyonight">
+<img src="https://github-readme-stats.vercel.app/api?username=akshatmhjj&show_icons=true&theme=tokyonight">
 </p>
 
 <p align="center">
-<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=akshat_mhjj&layout=compact&theme=tokyonight">
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=akshatmhjj&layout=compact&theme=tokyonight">
 </p>
 
 ---
@@ -85,7 +85,7 @@ Tech Stack: Next.js, APIs, ML Integration
 ## 📈 GitHub Activity Graph
 
 <p align="center">
-<img src="https://github-readme-activity-graph.vercel.app/graph?username=akshat_mhjj&theme=tokyo-night">
+<img src="https://github-readme-activity-graph.vercel.app/graph?username=akshatmhjj&theme=tokyo-night">
 </p>
 
 ---
@@ -93,7 +93,7 @@ Tech Stack: Next.js, APIs, ML Integration
 ## 🐍 Contribution Snake Animation
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/akshat_mhjj/akshat_mhjj/output/github-contribution-grid-snake.svg">
+<img src="https://raw.githubusercontent.com/akshatmhjj/akshatmhjj/output/github-contribution-grid-snake.svg">
 </p>
 
 ---
