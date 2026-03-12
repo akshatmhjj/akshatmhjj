@@ -64,12 +64,12 @@ Responsibilities include implementing UI improvements, optimizing application be
 
 Key contributions include:
 
-• Developing and refining iOS interface components using **Swift, UIKit, and SwiftUI**
-• Improving UI consistency across **portrait and landscape device orientations**
-• Debugging and resolving functional issues within live product modules
-• Working with **API-driven interfaces and data integration** within the application
-• Ensuring clean architecture and maintainable code within an existing production codebase
-• Collaborating with development teams to enhance performance and usability
+• Developing and refining iOS interface components using **Swift, UIKit, and SwiftUI** <br>
+• Improving UI consistency across **portrait and landscape device orientations** <br>
+• Debugging and resolving functional issues within live product modules <br>
+• Working with **API-driven interfaces and data integration** within the application <br>
+• Ensuring clean architecture and maintainable code within an existing production codebase <br>
+• Collaborating with development teams to enhance performance and usability <br>
 
 This experience has strengthened my understanding of **production application architecture, debugging workflows, and collaborative software development**.
 
@@ -85,11 +85,11 @@ The platform focuses on simplifying the learning journey by organizing complex t
 
 Key aspects of the project:
 
-• Built using a **MERN stack architecture**
-• Modular backend structure enabling scalable content delivery
-• Responsive UI designed for accessibility and usability
-• Structured developer roadmaps and learning resources
-• Designed to evolve into a larger developer ecosystem
+• Built using a **MERN stack architecture** <br>
+• Modular backend structure enabling scalable content delivery <br> 
+• Responsive UI designed for accessibility and usability <br> 
+• Structured developer roadmaps and learning resources <br> 
+• Designed to evolve into a larger developer ecosystem <br>
 
 ---
 
@@ -101,10 +101,10 @@ This version focused on delivering beginner-friendly web development guidance th
 
 Highlights:
 
-• Built using **HTML, CSS, and JavaScript**
-• Structured beginner-focused learning modules
-• Responsive interface for multiple devices
-• Served as the conceptual and architectural base for Code Journey v2
+• Built using **HTML, CSS, and JavaScript** <br>
+• Structured beginner-focused learning modules <br>
+• Responsive interface for multiple devices <br>
+• Served as the conceptual and architectural base for Code Journey v2 <br>
 
 The evolution from v1 to v2 reflects improvements in **architecture, scalability, and user experience design**.
 
@@ -118,11 +118,11 @@ The goal of this project was to design a clean backend infrastructure capable of
 
 Key elements:
 
-• RESTful API architecture
-• Structured route and controller design
-• Data models for tasks, projects, and teams
-• Optimized backend logic for scalability
-• Focus on maintainable server-side architecture
+• RESTful API architecture <br>
+• Structured route and controller design <br>
+• Data models for tasks, projects, and teams <br>
+• Optimized backend logic for scalability <br>
+• Focus on maintainable server-side architecture <br>
 
 Technologies used:
 
@@ -138,11 +138,11 @@ The application focuses on delivering intelligent insights through predictive an
 
 Features include:
 
-• Machine learning model integration
-• Interactive user interface for predictions
-• Real-time API communication
-• Data-driven price estimation system
-• User-friendly interaction model
+• Machine learning model integration <br>
+• Interactive user interface for predictions <br>
+• Real-time API communication <br>
+• Data-driven price estimation system <br>
+• User-friendly interaction model <br>
 
 Technologies used:
 
