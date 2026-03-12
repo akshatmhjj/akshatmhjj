@@ -42,11 +42,11 @@ Git · GitHub · VS Code · Xcode · npm
 
 Working on a production hospitality platform used by luxury hotels worldwide.
 
-• Building and refining iOS interfaces using **Swift, UIKit and SwiftUI**
-• Improving UI consistency across **portrait and landscape orientations**
-• Debugging product modules and resolving UI issues
-• Integrating API-driven data into mobile interfaces
-• Maintaining clean and maintainable production code
+• Building and refining iOS interfaces using **Swift, UIKit and SwiftUI** <br>
+• Improving UI consistency across **portrait and landscape orientations** <br>
+• Debugging product modules and resolving UI issues <br>
+• Integrating API-driven data into mobile interfaces <br>
+• Maintaining clean and maintainable production code <br>
 
 ---
 
