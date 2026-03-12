@@ -5,39 +5,73 @@ Full Stack & iOS Developer building scalable web platforms and high-performance 
 </p>
 
 <p align="center">
-Focused on clean architecture, efficient backend systems, and intuitive user experiences.
+Focused on clean architecture, reliable backend systems, and intuitive user experiences across web and mobile platforms.
 </p>
 
 ---
 
 ## About
 
-Engineer working across modern JavaScript ecosystems and native iOS development to build reliable and maintainable software.
-Interested in scalable systems, thoughtful product design, and developer-focused platforms.
+Engineer working across modern JavaScript ecosystems and native iOS development to design reliable, scalable, and maintainable software systems.
+
+My work focuses on building production-grade applications with clean architecture, efficient data flow, and thoughtful user experience. I enjoy solving complex engineering problems, improving performance, and turning ideas into real products used by people.
+
+Currently contributing to real-world product development while continuously exploring better ways to design scalable systems and intuitive digital interfaces.
+
+Key interests include:
+
+• Scalable web platforms
+• Native iOS application development
+• Backend system design and API architecture
+• Developer-focused tools and learning platforms
+• Product-driven engineering
 
 ---
 
 ## Core Technologies
 
-**Frontend**
+### Frontend Engineering
 
-React · HTML · CSS · Tailwind
+React · HTML5 · CSS3 · Tailwind CSS · Responsive UI Development · Component-based Architecture
 
-**Backend**
+### Backend Engineering
 
-Node.js · Express · REST APIs
+Node.js · Express.js · RESTful API Design · Server Architecture · API Integration
 
-**Database**
+### Databases
 
-MongoDB · SQL
+MongoDB · SQL · Data Modeling · Query Optimization
 
-**Mobile Development**
+### Mobile Development
 
-Swift · UIKit · SwiftUI
+Swift · UIKit · SwiftUI · iOS Interface Design · Application Lifecycle Handling
 
-**Developer Tools**
+### Developer Tools
 
-Git · GitHub · VS Code
+Git · GitHub · VS Code · Version Control Workflows · Debugging & Code Optimization
+
+---
+
+## Professional Experience
+
+### iOS Developer Intern
+
+**DigiValet**
+
+Contributing to the development and enhancement of a production-level hospitality technology platform used in luxury hotels worldwide.
+
+Responsibilities include implementing UI improvements, optimizing application behavior across device orientations, debugging interface issues, and maintaining smooth interaction between backend services and the mobile interface.
+
+Key contributions include:
+
+• Developing and refining iOS interface components using **Swift, UIKit, and SwiftUI**
+• Improving UI consistency across **portrait and landscape device orientations**
+• Debugging and resolving functional issues within live product modules
+• Working with **API-driven interfaces and data integration** within the application
+• Ensuring clean architecture and maintainable code within an existing production codebase
+• Collaborating with development teams to enhance performance and usability
+
+This experience has strengthened my understanding of **production application architecture, debugging workflows, and collaborative software development**.
 
 ---
 
@@ -45,20 +79,74 @@ Git · GitHub · VS Code
 
 ### Code Journey v2
 
-A full-stack developer learning platform designed to provide structured learning roadmaps and curated resources for aspiring engineers.
-Built with scalable architecture and modular backend services.
+A full-stack developer learning platform designed to provide structured roadmaps, curated learning resources, and guided development paths for aspiring developers.
+
+The platform focuses on simplifying the learning journey by organizing complex topics into clear, progressive modules.
+
+Key aspects of the project:
+
+• Built using a **MERN stack architecture**
+• Modular backend structure enabling scalable content delivery
+• Responsive UI designed for accessibility and usability
+• Structured developer roadmaps and learning resources
+• Designed to evolve into a larger developer ecosystem
+
+---
+
+### Code Journey v1
+
+The initial version of Code Journey that laid the foundation for the platform's learning structure and user experience.
+
+This version focused on delivering beginner-friendly web development guidance through a simple yet organized interface.
+
+Highlights:
+
+• Built using **HTML, CSS, and JavaScript**
+• Structured beginner-focused learning modules
+• Responsive interface for multiple devices
+• Served as the conceptual and architectural base for Code Journey v2
+
+The evolution from v1 to v2 reflects improvements in **architecture, scalability, and user experience design**.
 
 ---
 
 ### TaskFlow API
 
-RESTful backend infrastructure for managing projects, tasks, and workflow systems with scalable routing and maintainable API architecture.
+A backend system designed to manage projects, tasks, and team workflows through a scalable REST API architecture.
+
+The goal of this project was to design a clean backend infrastructure capable of supporting real-world project management tools.
+
+Key elements:
+
+• RESTful API architecture
+• Structured route and controller design
+• Data models for tasks, projects, and teams
+• Optimized backend logic for scalability
+• Focus on maintainable server-side architecture
+
+Technologies used:
+
+Node.js · Express.js · SQL
 
 ---
 
 ### Predicteye Scaling
 
-AI-driven application that predicts resale product pricing using machine learning models and interactive data interfaces.
+An AI-driven web application that predicts resale product prices using machine learning models and interactive data interfaces.
+
+The application focuses on delivering intelligent insights through predictive analytics.
+
+Features include:
+
+• Machine learning model integration
+• Interactive user interface for predictions
+• Real-time API communication
+• Data-driven price estimation system
+• User-friendly interaction model
+
+Technologies used:
+
+Next.js · JavaScript · Machine Learning APIs
 
 ---
 
@@ -71,6 +159,8 @@ AI-driven application that predicts resale product pricing using machine learnin
 <img height="170" src="https://github-readme-stats.vercel.app/api/top-langs/?username=akshatmhjj&layout=compact&hide_border=true&theme=transparent"/>
 
 </p>
+
+These repositories represent my work across **web development, backend systems, and mobile application development**, reflecting both experimental learning and production-oriented engineering practices.
 
 ---
 
@@ -88,5 +178,5 @@ Email
 ---
 
 <p align="center">
-Building systems that scale and experiences that feel effortless.
+Building systems that scale and digital experiences that feel effortless.
 </p>
