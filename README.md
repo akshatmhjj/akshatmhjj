@@ -19,19 +19,19 @@ Interested in backend architecture, product-focused engineering, and developer l
 
 ## Core Technologies
 
-**Frontend**
+**Frontend:**
 React · HTML5 · CSS3 · Tailwind
 
-**Backend**
+**Backend:**
 Node.js · Express · REST APIs
 
-**Database**
+**Database:**
 MongoDB · SQL
 
-**Mobile**
+**Mobile:**
 Swift · UIKit · SwiftUI · MVVM
 
-**Tools**
+**Tools:**
 Git · GitHub · VS Code · Xcode · npm
 
 ---
