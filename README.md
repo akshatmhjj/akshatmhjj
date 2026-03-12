@@ -38,7 +38,7 @@ Git · GitHub · VS Code · Xcode · npm
 
 ## Experience
 
-### iOS Developer Intern — DigiValet
+### iOS Developer Intern - DigiValet
 
 Working on a production hospitality platform used by luxury hotels worldwide.
 
