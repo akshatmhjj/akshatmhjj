@@ -5,34 +5,43 @@ Full Stack & iOS Developer building scalable web platforms and high-performance 
 </p>
 
 <p align="center">
-Focused on clean architecture, reliable backend systems, and intuitive user experiences.
+React · Node.js · Swift · REST APIs · Clean Architecture
 </p>
 
 ---
 
 ## About
 
-Engineer working across modern JavaScript ecosystems and native iOS development to build reliable and scalable software.
-Interested in backend architecture, product-focused engineering, and developer learning platforms.
+Software engineer focused on building reliable products across **web and iOS ecosystems**.
+
+I work primarily with **React, Node.js, and Swift**, designing scalable backend systems, performant interfaces, and developer-focused platforms.
 
 ---
 
-## Core Technologies
+## Currently Building
 
-**Frontend:**
-React · HTML5 · CSS3 · Tailwind
+• Code Journey v2 - scalable developer learning platform  
+• Exploring backend architecture patterns in Node.js  
+• Improving UI performance and state management in iOS apps  
 
-**Backend:**
-Node.js · Express · REST APIs
+---
 
-**Database:**
+## Tech Stack
+
+### Frontend
+React · HTML5 · CSS3 · Tailwind · Responsive UI
+
+### Backend
+Node.js · Express · REST API Design
+
+### Database
 MongoDB · SQL
 
-**Mobile:**
+### Mobile
 Swift · UIKit · SwiftUI · MVVM
 
-**Tools:**
-Git · GitHub · VS Code · Xcode · npm
+### Tools
+Git · GitHub · VS Code · Xcode · Postman · npm
 
 ---
 
@@ -42,38 +51,54 @@ Git · GitHub · VS Code · Xcode · npm
 
 Working on a production hospitality platform used by luxury hotels worldwide.
 
-• Building and refining iOS interfaces using **Swift, UIKit and SwiftUI** <br>
-• Improving UI consistency across **portrait and landscape orientations** <br>
-• Debugging product modules and resolving UI issues <br>
-• Integrating API-driven data into mobile interfaces <br>
-• Maintaining clean and maintainable production code <br>
+• Developing production iOS interfaces using **Swift, UIKit, and SwiftUI**  
+• Improving layout consistency across **portrait and landscape orientations**  
+• Debugging UI modules and resolving production issues  
+• Integrating backend APIs into mobile interfaces  
+
+### Frontend Developer Intern - Itigai Technologies
+
+• Built responsive UI components for a trip planning web platform  
+• Implemented modular frontend architecture for scalable UI development  
+• Developed chatbot interface connected to a machine learning pricing model  
+• Integrated frontend with REST APIs to deliver real-time predictions
 
 ---
 
-## Projects
+## Featured Project
 
-### Code Journey v2
+### Code Journey v2 - Developer Learning Platform
 
-Full-stack developer learning platform providing structured roadmaps and curated resources.
-**Tech:** MERN Stack
+A full-stack platform designed to guide aspiring developers through structured roadmaps and curated learning resources.
+
+**Tech:** React · Node.js · Express · MongoDB
+
+• Built modular React architecture for scalable learning modules  
+• Developed REST APIs for dynamic content delivery  
+• Designed responsive UI for better accessibility across devices
+
+---
+
+## Other Projects
 
 ### Code Journey v1
+Beginner-focused web development learning platform.
 
-Initial version of the platform focused on beginner-friendly web development guidance.
 **Tech:** HTML · CSS · JavaScript
 
 ### TaskFlow API
+RESTful backend for managing projects, tasks, and team workflows.
 
-RESTful backend for managing projects, tasks, and workflows.
 **Tech:** Node.js · Express · SQL
 
-### Predicteye Scaling
-
+### Predicteye
 AI-based application predicting resale product prices using machine learning models.
+
+**Tech:** React · REST APIs · ML Integration
 
 ---
 
-## GitHub Overview
+## GitHub Stats
 
 <p align="center">
 <img height="170" src="https://github-readme-stats.vercel.app/api?username=akshatmhjj&show_icons=true&hide_border=true&theme=transparent"/>
@@ -84,11 +109,11 @@ AI-based application predicting resale product prices using machine learning mod
 
 ## Connect
 
-Portfolio:
+Portfolio  
 https://akshatmahajan.in
 
-LinkedIn:
+LinkedIn  
 https://www.linkedin.com/in/akshat-mahajan-601a5a223/
 
-Email:
-[akshatmahajan32@gmail.com](mailto:akshatmahajan32@gmail.com)
+Email  
+akshatmahajan32@gmail.com
