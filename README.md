@@ -71,5 +71,8 @@ each graphic draws and inlined as base64. That isn't only for looks: the<br>
 portrait's grid assumes an advance width of exactly 0.600 em, and a viewer whose<br>
 default monospace is narrower would otherwise see it squeezed.
 
-Language totals cover public repositories only. `year.svg` uses the portrait's<br>
+Language totals include repositories visible to the stats token. For totals that<br>
+match the profile, the scheduled action uses the `GH_STATS_TOKEN` repository<br>
+secret: a profile-owner token with access to private repositories. Without it,<br>
+GitHub can only return public contributions. `year.svg` uses the portrait's<br>
 character ramp: `:` `+` `#` `@`, quiet to loud.

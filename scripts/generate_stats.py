@@ -14,7 +14,8 @@ background, and the same left-to-right clipPath reveal with a cursor riding
 the edge. Motion is SMIL because GitHub strips <script> from READMEs.
 
 Env:
-  GITHUB_TOKEN  required
+    GITHUB_TOKEN  required; use a user token with private-repository access for
+                                profile-accurate totals
   GH_LOGIN      user to summarise (default: andriidrok1)
   OUT_DIR       where to write (default: repository root)
 """
@@ -32,19 +33,20 @@ API = "https://api.github.com/graphql"
 #  * the contribution window, to whole UTC days — otherwise "the past year" is
 #    measured from request time and days drift between week buckets, moving the
 #    sparkline a fraction of a pixel and committing noise every night;
-#  * privacy: PUBLIC on repositories — otherwise a personal token sees private
-#    repos and a workflow token doesn't, so language totals disagree.
+#  * privacy: private contributions are requested explicitly. GitHub only
+#    returns them when the token belongs to the profile owner and can see the
+#    relevant repositories; the workflow documents that token requirement.
 QUERY = """
 query($login: String!, $from: DateTime!, $to: DateTime!) {
   user(login: $login) {
-    contributionsCollection(from: $from, to: $to) {
+        contributionsCollection(from: $from, to: $to,
+                                                        includePrivateContributions: true) {
       contributionCalendar {
         totalContributions
         weeks { contributionDays { contributionCount date weekday } }
       }
     }
-    repositories(first: 100, ownerAffiliations: OWNER, isFork: false,
-                 privacy: PUBLIC) {
+    repositories(first: 100, ownerAffiliations: OWNER, isFork: false) {
       nodes {
         languages(first: 12, orderBy: {field: SIZE, direction: DESC}) {
           edges { size node { name } }
