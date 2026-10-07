@@ -3,13 +3,17 @@
 
 No third-party services and no dependencies — standard library only.
 
-Outputs, all sharing one visual language with ascii.svg (the portrait):
-  stats.svg   hero total + weekly sparkline
+Outputs:
+  contrib-heatmap.svg  the year as GitHub's green grid, revealed cell by cell
+  stats.svg            terminal-window numbers card, the same size as the
+                       portrait window (ascii.svg) so the two sit side by side
+
+and, sharing one visual language with the portrait's grey ink:
   streak.svg  current and longest streak
   langs.svg   top languages, by bytes and by repo count
   year.svg    the year as a character map, in the portrait's own ramp
 
-Every file uses the portrait's grey ink, a monospace face, a transparent
+The ink graphics use the portrait's grey ink, a monospace face, a transparent
 background, and the same left-to-right clipPath reveal with a cursor riding
 the edge. Motion is SMIL because GitHub strips <script> from READMEs.
 
@@ -42,7 +46,7 @@ query($login: String!, $from: DateTime!, $to: DateTime!) {
         contributionsCollection(from: $from, to: $to) {
       contributionCalendar {
         totalContributions
-        weeks { contributionDays { contributionCount date weekday } }
+        weeks { contributionDays { contributionCount contributionLevel date weekday } }
       }
     }
     repositories(first: 100, ownerAffiliations: OWNER, isFork: false) {
@@ -185,14 +189,21 @@ def summarise(user):
     cal = user["contributionsCollection"]["contributionCalendar"]
     weeks = [w["contributionDays"] for w in cal["weeks"]]
     days = [d for w in weeks for d in w]
-    weekly = [sum(d["contributionCount"] for d in w) for w in weeks]
     cur, best = streaks(days)
     by_size, by_repo = languages(user["repositories"]["nodes"])
+    active = sum(1 for d in days if d["contributionCount"] > 0)
+    monthly = {}
+    for d in days:
+        monthly[d["date"][:7]] = (monthly.get(d["date"][:7], 0)
+                                  + d["contributionCount"])
+    # the earliest of equal days, so a tie never flips between runs
+    top_day = max(days, key=lambda d: d["contributionCount"]) if days else None
     return dict(
         total=cal["totalContributions"],
-        active=sum(1 for d in days if d["contributionCount"] > 0),
-        best_week=max(weekly) if weekly else 0,
-        weekly=weekly, weeks=weeks,
+        active=active, n_days=len(days),
+        avg=round(cal["totalContributions"] / active, 1) if active else 0.0,
+        best_day=top_day, monthly=sorted(monthly.items()),
+        weeks=weeks,
         current=cur, longest=best,
         by_size=by_size, by_repo=by_repo)
 
@@ -252,41 +263,218 @@ def hbar(x, y, w, h, cls="d-f", r=3.0):
             f'H{x:.1f}Z" class="{cls}"/>')
 
 
-def draw_stats(s):
-    """Hero number, the two secondary counts, and the weekly sparkline."""
-    H = 148
-    weekly = s["weekly"] or [0]
-    peak = max(weekly) or 1
-    p = [head(WIDTH, H)]
-    p.append(f'<g opacity="0">{fade(0.10)}'
-             + label(0, 50, s["total"], 52, "e-f", extra=' font-weight="600"')
-             + label(0, 72, "contributions in the last year", 12) + '</g>')
-    for i, (val, lab) in enumerate([(s["active"], "active days"),
-                                    (s["best_week"], "best week")]):
-        p.append(f'<g opacity="0">{fade(0.30 + i * 0.12)}'
-                 + label(WIDTH, 30 + i * 40, val, 19, "e-f", "end",
-                         ' font-weight="600"')
-                 + label(WIDTH, 47 + i * 40, lab, 11, "m-f", "end") + '</g>')
+# The two terminal windows at the top (portrait + numbers) share one canvas, so
+# equal <img> widths in the README give equal heights. make_portrait.py imports
+# these. The windows stay dark in both themes, like a real terminal would.
+CARD_W, CARD_H = 840, 880
+TERM = dict(bg="#0d1117", bg2="#111722", tile="#161b22", frame="#30363d",
+            dim="#7d8590", ink="#e6edf3", green="#39d353", bar="#26a641")
+PROMPT = "akshat@github"
 
-    base, top = H - 10, H - 58
-    span = base - top
-    step = WIDTH / max(len(weekly) - 1, 1)
-    pts = [(i * step, base - (v / peak) * span) for i, v in enumerate(weekly)]
-    clip, cursor = wipe("rs", 0, top - 6, WIDTH, span + 8, 0.50)
-    p.append(clip)
-    p.append('<g clip-path="url(#rs)">')
-    p.append(f'<path d="M{pts[0][0]:.1f} {base:.1f}'
-             + "".join(f'L{x:.1f} {y:.1f}' for x, y in pts)
-             + f'L{pts[-1][0]:.1f} {base:.1f}Z" class="w"/>')
-    p.append(f'<path d="M{pts[0][0]:.1f} {pts[0][1]:.1f}'
-             + "".join(f'L{x:.1f} {y:.1f}' for x, y in pts[1:])
-             + f'" class="d-s" stroke-width="2" stroke-linejoin="round" '
-             f'stroke-linecap="round"/>')
-    p.append("</g>")
-    p.append(cursor)
-    ex, ey = pts[-1]
-    p.append(f'<circle cx="{ex - 2:.1f}" cy="{ey:.1f}" r="4.5" class="e-f r" '
-             f'stroke-width="2" opacity="0">{fade(0.50 + REVEAL, 0.35)}</circle>')
+
+def terminal(w, h, title, titlebar=30, pad=20):
+    """Window chrome: dark body, hairline frame, traffic lights, title."""
+    p = [f'<defs><linearGradient id="tbg" x1="0" y1="0" x2="0" y2="1">'
+         f'<stop offset="0" stop-color="{TERM["bg2"]}"/>'
+         f'<stop offset="1" stop-color="{TERM["bg"]}"/></linearGradient></defs>',
+         f'<rect width="{w}" height="{h}" rx="12" fill="url(#tbg)"/>',
+         f'<rect x="0.5" y="0.5" width="{w - 1}" height="{h - 1}" rx="12" '
+         f'fill="none" stroke="{TERM["frame"]}"/>',
+         f'<line x1="0" y1="{titlebar}" x2="{w}" y2="{titlebar}" '
+         f'stroke="{TERM["frame"]}"/>']
+    for i, dot in enumerate(("#ff5f56", "#ffbd2e", "#27c93f")):
+        p.append(f'<circle cx="{pad + i * 16}" cy="{titlebar / 2}" r="5" '
+                 f'fill="{dot}"/>')
+    p.append(f'<text x="{w / 2}" y="{titlebar / 2 + 4}" fill="{TERM["dim"]}" '
+             f'font-size="12" text-anchor="middle">{title}</text>')
+    return p
+
+
+# GitHub's own ramps, light and dark, indexed by contributionLevel
+HEAT_LIGHT = ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"]
+HEAT_DARK = ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"]
+LEVEL = {"NONE": 0, "FIRST_QUARTILE": 1, "SECOND_QUARTILE": 2,
+         "THIRD_QUARTILE": 3, "FOURTH_QUARTILE": 4}
+
+
+def draw_heatmap(s):
+    """The contribution calendar as boxes that pop in on a diagonal sweep.
+
+    CSS keyframes rather than SMIL here: one rule animates all ~370 cells and
+    the per-cell delay is a single style attribute, which keeps the file small.
+    GitHub runs CSS animation inside <img> SVGs, it only strips scripts.
+    """
+    CELL, GAP, RAD, LX, TOP = 13, 3, 2.5, 34, 24
+    STEP = CELL + GAP
+    REVEAL_T, DUR = 3.6, 0.55
+    weeks = s["weeks"]
+    nw = len(weeks)
+    W = LX + nw * STEP + 4
+    H = TOP + 7 * STEP + 24
+    span = max((nw - 1) + 6 * 0.55, 1)
+
+    def palette(colors):
+        return "".join(f".l{i}{{fill:{c}}}" for i, c in enumerate(colors))
+
+    css = (f".c{{transform-box:fill-box;transform-origin:center;opacity:0;"
+           f"animation:pop {DUR}s ease-out both}}"
+           f".g{{animation:pop {DUR}s ease-out both,"
+           f"flash {DUR + 0.15:.2f}s ease-out both}}"
+           "@keyframes pop{0%{opacity:0;transform:scale(.2)}"
+           "60%{opacity:1;transform:scale(1.1)}"
+           "100%{opacity:1;transform:scale(1)}}"
+           "@keyframes flash{0%,45%{filter:brightness(2.2)}"
+           "100%{filter:brightness(1)}}"
+           "@media(prefers-reduced-motion:reduce){.c{opacity:1!important;"
+           "animation:none!important}}"
+           + palette(HEAT_LIGHT)
+           + f"@media(prefers-color-scheme:dark){{{palette(HEAT_DARK)}}}")
+
+    p = [head(W, H).replace("</style>", css + "</style>")]
+    last_m, last_x = None, -999.0
+    for wi, w in enumerate(weeks):
+        m = int(w[0]["date"][5:7])
+        x = LX + wi * STEP
+        if m != last_m and x - last_x >= 30 and wi < nw - 2:
+            p.append(label(x, TOP - 9, MON[m - 1], 11, "m-f"))
+            last_x = x
+        last_m = m
+    for r, lab in ((1, "mon"), (3, "wed"), (5, "fri")):
+        p.append(label(0, TOP + r * STEP + CELL - 3, lab, 10, "m-f"))
+
+    for wi, w in enumerate(weeks):
+        for d in w:
+            r = d["weekday"]
+            lvl = LEVEL.get(d.get("contributionLevel"),
+                            1 if d["contributionCount"] else 0)
+            delay = (wi + r * 0.55) / span * REVEAL_T
+            n = d["contributionCount"]
+            p.append(f'<rect class="c{" g" if lvl else ""} l{lvl}" '
+                     f'x="{LX + wi * STEP}" y="{TOP + r * STEP}" '
+                     f'width="{CELL}" height="{CELL}" rx="{RAD}" '
+                     f'style="animation-delay:{delay:.2f}s">'
+                     f'<title>{d["date"]}: {n} contribution'
+                     f'{"" if n == 1 else "s"}</title></rect>')
+
+    p.append(label(LX, H - 4, f'{s["total"]:,} contributions in the last year',
+                   13, "e-f", extra=' font-weight="600"'))
+    lx = W - 32 - 5 * (CELL + 2)          # room for "more" after the swatches
+    p.append(label(lx - 6, H - 5, "less", 10, "m-f", "end"))
+    for i in range(5):
+        p.append(f'<rect class="l{i}" x="{lx + i * (CELL + 2)}" y="{H - 15}" '
+                 f'width="{CELL - 2}" height="{CELL - 2}" rx="2"/>')
+    p.append(label(lx + 5 * (CELL + 2) + 4, H - 5, "more", 10, "m-f"))
+    p.append("</svg>")
+    return "".join(p)
+
+
+def draw_card(s):
+    """Six numbers that count up, then contributions per month as bars.
+
+    The count-up is a stack of pre-rendered frames toggled with SMIL <set>,
+    since GitHub runs SMIL and CSS inside <img> SVGs but never JS.
+    """
+    W, H, PAD, TB = CARD_W, CARD_H, 20, 30
+    COLS, ROWS, GAP, TILE_H = 2, 3, 16, 150
+    TILE_W = (W - PAD * 2 - GAP * (COLS - 1)) / COLS
+    TILES_TOP = TB + PAD + 4
+    CHART_TOP = TILES_TOP + ROWS * TILE_H + (ROWS - 1) * GAP + GAP
+    STAGGER, SLIDE, COUNT, FRAMES = 0.15, 0.45, 1.2, 16
+    BAR_START = STAGGER * COLS * ROWS + 0.4
+    BAR_STAGGER, BAR_DUR = 0.06, 0.6
+    t = TERM
+
+    def span(r):
+        return (f"{pretty(r['start'])} &#8211; {pretty(r['end'])}"
+                if r["length"] else "&#8212;")
+
+    bd = s["best_day"]
+    share = s["active"] / s["n_days"] if s["n_days"] else 0
+    tiles = [
+        ("current streak", s["current"]["length"], " days",
+         span(s["current"]), t["green"]),
+        ("longest streak", s["longest"]["length"], " days",
+         span(s["longest"]), t["ink"]),
+        ("contributions", s["total"], "", "in the last year", t["ink"]),
+        ("active days", s["active"], f" / {s['n_days']}",
+         f"{share:.0%} of the year", t["ink"]),
+        ("best day", bd["contributionCount"] if bd else 0, "",
+         pretty(bd["date"]) if bd else "&#8212;", t["ink"]),
+        ("avg / active day", s["avg"], "", "contributions", t["ink"]),
+    ]
+
+    p = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" '
+         f'viewBox="0 0 {W} {H}" font-family="{MONO}">'
+         f'<style>{font_text()}'
+         f'.t{{opacity:0;animation:in {SLIDE}s ease-out both}}'
+         '@keyframes in{0%{opacity:0;transform:translateY(14px)}'
+         '100%{opacity:1;transform:translateY(0)}}'
+         f'.b{{transform-box:fill-box;transform-origin:bottom;'
+         f'transform:scaleY(0);animation:grow {BAR_DUR}s ease-out both}}'
+         '@keyframes grow{to{transform:scaleY(1)}}'
+         '@media(prefers-reduced-motion:reduce){.t,.b{opacity:1!important;'
+         'transform:none!important;animation:none!important}}</style>']
+    p += terminal(W, H, f"{PROMPT}: ~$ ./stats.sh", TB, PAD)
+
+    for i, (lab, value, suffix, caption, accent) in enumerate(tiles):
+        x = PAD + (i % COLS) * (TILE_W + GAP)
+        y = TILES_TOP + (i // COLS) * (TILE_H + GAP)
+        start = i * STAGGER
+        count_start = start + SLIDE * 0.6
+        p.append(f'<g class="t" style="animation-delay:{start:.2f}s">'
+                 f'<rect x="{x:.1f}" y="{y}" width="{TILE_W:.1f}" '
+                 f'height="{TILE_H}" rx="10" fill="{t["tile"]}" '
+                 f'stroke="{t["frame"]}"/>'
+                 f'<text x="{x + 24:.1f}" y="{y + 40}" fill="{t["dim"]}" '
+                 f'font-size="22">$ {lab}</text>')
+        for k in range(1, FRAMES + 1):
+            q = k / FRAMES
+            v = value * (1 - (1 - q) ** 3)        # ease out into the real value
+            shown = (f"{v:,.1f}" if isinstance(value, float)
+                     else f"{int(round(v)):,}")
+            on = count_start + COUNT * (k - 1) / FRAMES
+            anim = f'<set attributeName="opacity" to="1" begin="{on:.3f}s"/>'
+            if k < FRAMES:
+                off = count_start + COUNT * k / FRAMES
+                anim += (f'<set attributeName="opacity" to="0" '
+                         f'begin="{off:.3f}s"/>')
+            p.append(f'<text x="{x + 24:.1f}" y="{y + 100}" opacity="0" '
+                     f'font-size="54" font-weight="600" fill="{accent}">'
+                     f'{shown}<tspan font-size="24" font-weight="400" '
+                     f'fill="{t["dim"]}">{suffix}</tspan>{anim}</text>')
+        p.append(f'<text x="{x + 24:.1f}" y="{y + 132}" fill="{t["dim"]}" '
+                 f'font-size="20">{caption}</text></g>')
+
+    monthly = s["monthly"] or [("2000-01", 0)]
+    cx, cw = PAD, W - PAD * 2
+    ch = H - PAD - CHART_TOP
+    p.append(f'<g class="t" style="animation-delay:{BAR_START - 0.3:.2f}s">'
+             f'<rect x="{cx}" y="{CHART_TOP}" width="{cw}" height="{ch}" '
+             f'rx="10" fill="{t["tile"]}" stroke="{t["frame"]}"/>'
+             f'<text x="{cx + 24}" y="{CHART_TOP + 40}" fill="{t["dim"]}" '
+             f'font-size="22">$ contributions / month</text></g>')
+    top, bot = CHART_TOP + 72, CHART_TOP + ch - 40
+    left, right = cx + 24, cx + cw - 24
+    slot = (right - left) / len(monthly)
+    bw = slot * 0.62
+    peak = max(v for _, v in monthly) or 1
+    for i, (month, total) in enumerate(monthly):
+        h = max(2, (bot - top) * total / peak)
+        bx = left + i * slot + (slot - bw) / 2
+        delay = BAR_START + i * BAR_STAGGER
+        hot = total == peak and total > 0
+        p.append(f'<rect class="b" x="{bx:.1f}" y="{bot - h:.1f}" '
+                 f'width="{bw:.1f}" height="{h:.1f}" rx="3" '
+                 f'fill="{t["green"] if hot else t["bar"]}" '
+                 f'style="animation-delay:{delay:.2f}s"/>')
+        p.append(f'<text x="{bx + bw / 2:.1f}" y="{bot + 28}" '
+                 f'fill="{t["dim"]}" font-size="18" text-anchor="middle">'
+                 f'{MON[int(month[5:7]) - 1][0]}</text>')
+        if hot:
+            p.append(f'<text class="t" style="animation-delay:'
+                     f'{delay + BAR_DUR:.2f}s" x="{bx + bw / 2:.1f}" '
+                     f'y="{bot - h - 10:.1f}" fill="{t["ink"]}" font-size="18" '
+                     f'text-anchor="middle">{peak:,}</text>')
     p.append("</svg>")
     return "".join(p)
 
@@ -466,7 +654,8 @@ def main():
     out_dir = os.environ.get("OUT_DIR", ".")
 
     s = summarise(fetch(login, token))
-    files = {"stats.svg": draw_stats(s), "streak.svg": draw_streak(s),
+    files = {"contrib-heatmap.svg": draw_heatmap(s), "stats.svg": draw_card(s),
+             "streak.svg": draw_streak(s),
              "langs.svg": draw_langs(s), "year.svg": draw_year(s)}
     for word in ("about", "stack", "projects", "stats", "about this page"):
         files[f"hd-{word.replace(' ', '-')}.svg"] = draw_heading(word)
@@ -474,7 +663,8 @@ def main():
     changed = [n for n, svg in files.items()
                if write(os.path.join(out_dir, n), svg)]
     print(f"{s['total']} contributions, {s['active']} active days, "
-          f"best week {s['best_week']}, current streak "
+          f"best day {(s['best_day'] or {}).get('contributionCount', 0)}, "
+          f"current streak "
           f"{s['current']['length']}, longest {s['longest']['length']}")
     print("languages by bytes: "
           + ", ".join(f"{n} {v}" for n, v in s["by_size"]))

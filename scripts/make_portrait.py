@@ -5,7 +5,7 @@ This is the generator that produced the portrait at the top of the README.
 Run it once; it is not on a schedule, unlike scripts/generate_stats.py.
 
     pip install pillow numpy opencv-python-headless rembg onnxruntime
-    python3 scripts/make_portrait.py photo.png --crop 400,110,910,790
+    python3 scripts/make_portrait.py photo.jpg --crop 140,150,580,620
     python3 scripts/embed_portrait_font.py      # inline the font, see below
 
 The first run downloads a ~176 MB background-removal model, once.
@@ -25,6 +25,9 @@ after generating, run scripts/embed_portrait_font.py to inline JetBrains Mono.
 Otherwise a viewer whose default monospace is narrower — Consolas is ≈0.55 —
 sees the portrait about 7% too narrow.
 
+The output is a terminal window exactly the size of stats.svg (CARD_W x CARD_H
+in generate_stats.py), so the README can set them side by side at equal widths.
+
 Motion is SMIL, because GitHub strips <script> from READMEs: each row is
 revealed by a clipPath wipe with a cursor block riding its edge, staggered top
 to bottom, frozen at the end so it prints once and stops.
@@ -37,16 +40,20 @@ import numpy as np
 from PIL import Image
 from rembg import remove
 
+from generate_stats import CARD_H, CARD_W, PROMPT, TERM, terminal
+
 RAMP = " .`:-=+*cs#%@"     # bright/sparse -> dark/dense; leading space = blank
-COLS = 90                  # below ~88 the face muddies; far above it dominates
+COLS = 100                 # below ~88 the face muddies; 100 fills the window
 CLAHE_CLIP = 3.0           # higher amplifies skin texture into noise
 GAMMA = 1.0                # ramp mapping exponent
-CURVE = 1.7                # the darkening curve — the difference-maker
+CURVE = 1.1                # the darkening curve — the difference-maker.
+                           # 1.7 suits a pale, side-lit face; a front-lit face
+                           # with deeper skin tone needs less or it fills in
 CROP_BOTTOM = 0.0          # fraction to trim off the bottom (torso, chair)
 ROW_RATIO = 0.48           # monospace cells are about twice as tall as wide
 
-FG_LIGHT = "#6e7681"       # readable on GitHub light — the portrait's grey
-FG_DARK = "#c9d1d9"        # and its dark-mode step
+FG_DARK = "#c9d1d9"        # the portrait's grey, on the window's dark body
+NAME = "Akshat Mahajan"
 CHAR_W = 7.74              # 0.600 em at FONT_SIZE — keep these in step
 FONT_SIZE = 12.9
 LINE_H = 15
@@ -54,7 +61,7 @@ ROW_DELAY = 0.09           # per-row stagger, seconds
 FAMILY = "ui-monospace,SFMono-Regular,Menlo,Consolas,monospace"
 
 
-def prep(path, crop=None):
+def prep(path, crop=None, curve=CURVE):
     """Cut out the background, even the local contrast, then darken."""
     src = Image.open(path).convert("RGBA")
     if crop:
@@ -71,7 +78,7 @@ def prep(path, crop=None):
     gray = cv2.bilateralFilter(gray, 11, 50, 50)      # smooth skin, keep edges
     gray = cv2.createCLAHE(clipLimit=CLAHE_CLIP,
                            tileGridSize=(8, 8)).apply(gray)
-    gray = (255.0 * (gray / 255.0) ** CURVE).astype("uint8")
+    gray = (255.0 * (gray / 255.0) ** curve).astype("uint8")
     gray[alpha < 20] = 255                            # force the matte to white
     return Image.fromarray(gray)
 
@@ -102,39 +109,56 @@ def to_lines(img, cols=COLS, gamma=GAMMA):
 
 
 def build_svg(lines, cols=COLS):
-    pad = 14
-    width = int(cols * CHAR_W + pad * 2)
-    height = len(lines) * LINE_H + pad * 2
+    """The portrait inside a terminal window, the same size as stats.svg."""
+    W, H, TB, STATUS = CARD_W, CARD_H, 30, 32
+    art_w = cols * CHAR_W
+    art_h = len(lines) * LINE_H
+    x0 = (W - art_w) / 2
+    y0 = TB + (H - TB - STATUS - art_h) / 2
 
-    p = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" '
-         f'height="{height}" viewBox="0 0 {width} {height}" '
+    p = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" '
+         f'height="{H}" viewBox="0 0 {W} {H}" '
          f'font-family="{FAMILY}">',
-         f'<style>.a{{fill:{FG_LIGHT}}}'
-         f'@media(prefers-color-scheme:dark){{.a{{fill:{FG_DARK}}}}}</style>']
+         f'<style>.a{{fill:{FG_DARK}}}.m{{fill:{TERM["dim"]}}}</style>']
+    p += terminal(W, H, f"{PROMPT}: ~$ ./portrait.sh", TB)
 
     for i, line in enumerate(lines):
-        y = pad + i * LINE_H
+        y = y0 + i * LINE_H
         begin = f"{i * ROW_DELAY:.2f}s"
         end = f"{(i + 1) * ROW_DELAY:.2f}s"
         w = max(len(line), 1) * CHAR_W
         safe = (line.replace("&", "&amp;").replace("<", "&lt;")
                     .replace(">", "&gt;"))
 
-        p.append(f'<clipPath id="c{i}"><rect x="{pad}" y="{y}" '
+        p.append(f'<clipPath id="c{i}"><rect x="{x0:.1f}" y="{y:.1f}" '
                  f'height="{LINE_H}" width="0">'
                  f'<animate attributeName="width" from="0" to="{w:.1f}" '
                  f'begin="{begin}" dur="{ROW_DELAY}s" fill="freeze"/>'
                  f'</rect></clipPath>')
         p.append(f'<g clip-path="url(#c{i})"><text xml:space="preserve" '
-                 f'x="{pad}" y="{y + 11.2:.1f}" class="a" '
+                 f'x="{x0:.1f}" y="{y + 11.2:.1f}" class="a" '
                  f'font-size="{FONT_SIZE}">{safe}</text></g>')
         # the cursor: a small block riding the wipe edge, gone once the row lands
-        p.append(f'<rect y="{y + 1}" width="6" height="12" class="a" '
+        p.append(f'<rect y="{y + 1:.1f}" width="6" height="12" class="a" '
                  f'opacity="0">'
-                 f'<animate attributeName="x" from="{pad}" to="{pad + w:.1f}" '
+                 f'<animate attributeName="x" from="{x0:.1f}" '
+                 f'to="{x0 + w:.1f}" '
                  f'begin="{begin}" dur="{ROW_DELAY}s" fill="freeze"/>'
                  f'<set attributeName="opacity" to="0.8" begin="{begin}"/>'
                  f'<set attributeName="opacity" to="0" begin="{end}"/></rect>')
+
+    # status bar: whoami, then a cursor that keeps blinking
+    sy = H - STATUS
+    prompt = f"{PROMPT}:~$ whoami "
+    p.append(f'<line x1="0" y1="{sy}" x2="{W}" y2="{sy}" '
+             f'stroke="{TERM["frame"]}"/>')
+    p.append(f'<text x="20" y="{sy + 21}" class="m" font-size="13">{prompt}'
+             f'<tspan class="a">{NAME}</tspan></text>')
+    cx = 20 + (len(prompt) + len(NAME) + 1) * 13 * 0.6
+    p.append(f'<rect x="{cx:.1f}" y="{sy + 10}" width="8" height="14" '
+             f'class="a"><animate attributeName="opacity" values="1;1;0;0" '
+             f'keyTimes="0;0.5;0.51;1" dur="1s" repeatCount="indefinite"/>'
+             f'</rect>')
 
     p.append("</svg>")
     return "".join(p)
@@ -148,6 +172,8 @@ def main():
                                    "tight to the head so the whole grid goes to "
                                    "the face")
     ap.add_argument("--cols", type=int, default=COLS)
+    ap.add_argument("--curve", type=float, default=CURVE,
+                    help="darkening exponent; lower keeps a darker face open")
     ap.add_argument("--preview", action="store_true",
                     help="print the ASCII to the terminal as well")
     args = ap.parse_args()
@@ -159,7 +185,10 @@ def main():
             sys.exit("--crop needs four numbers: left,top,right,bottom")
         crop = tuple(parts)
 
-    lines = to_lines(prep(args.photo, crop), cols=args.cols)
+    lines = to_lines(prep(args.photo, crop, args.curve), cols=args.cols)
+    if len(lines) * LINE_H > CARD_H - 30 - 32 - 20:
+        sys.exit(f"{len(lines)} rows won't fit the window; crop wider than "
+                 "tall, or lower --cols")
     if args.preview:
         print("\n".join(lines))
 
