@@ -37,9 +37,9 @@ product requirements into maintainable systems that scale.
 
 <img src="./hd-projects.svg" width="620" alt="projects"/>
 
-**[Code Journey](https://www.codejourney.space/)** &nbsp;·&nbsp; <samp>mongodb, express.js, react.js, node.js</samp><br>
-Full-stack learning platform, built from MVP to production for 1,000+ users<br>
-and 50+ interactive lessons, with zero-downtime deployments.
+**[Code Journey](https://www.codejourney.space/)** &nbsp;·&nbsp; <samp>next.js, typescript, supabase, tailwind css</samp><br>
+A free, role-based map for tech careers, with an AI guide that answers from its own content.<br>
+10 roles and roughly 100 ordered skills, built on Next.js and TypeScript, and installable as a PWA.
 
 **[Predicteye](https://predictye.com/)** &nbsp;·&nbsp; <samp>rest APIs, machine learning, system design</samp><br>
 Predictive ML platform connecting a real-time frontend to stateless REST APIs,<br>
