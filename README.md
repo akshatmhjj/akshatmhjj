@@ -11,7 +11,6 @@
 
 <table>
 <tr>
-<td valign="top"><img src="./ascii.svg" width="420" alt="Akshat Mahajan, ASCII portrait"/></td>
 <td valign="top"><img src="./stats.svg" width="420" alt="Streaks, contributions, and contributions per month"/></td>
 </tr>
 </table>
